@@ -1,97 +1,24 @@
 ﻿using System;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using ElevatorProgram.Constants;
+using ElevatorProgram.Interfaces;
+using ElevatorProgram.Models;
+using ElevatorProgram.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-class CommandConstants
+
+
+
+
+
+
+
+public class Elevator
 {
-    public const string headerCommand = "Please choose from one of the following options...";
-    public const string toBuldingNumberCommand = "1.To START simulation";
-    public const string exitCommand = " (Q) to Exit";
-    public const string buldingNumberPrompt = "Enter Building number of floors";
-    public const string elevatorNumberPrompt = "Enter number of Elevators";
-    public const string toRequestElevatorCommand = "1. request Elevator";
-    public const string currentFloorPrompt = "Enter current floor number";
-    public const string destinationFloorPrompt = "Enter destinatin floor number";
-    public const string passangerNumberPrompt = "Enter Building number of passangers";
-}
-class InputValidatorMessages
-{
-    public const string invalidIntMessage = "Input is not valid, Please enter a number ex{1,2,3...}";
-    public const string invalidFloorMessage = "Input is not valid, Floor not avilable";
-}
+   
 
-class InputResultModel
-{
-    public string message ;
-    public int value ;
-    public bool valid ;
-    public bool exit;
-
-    public InputResultModel( string message, int value, bool valid, bool exit )
-    {
-        this.message = message;
-        this.value = value;
-        this.valid = valid;
-        this.exit = exit;
-    }
-}
-class ElevatorMovement
-{
-    string? direction;
-    int currentFloor;
-    int destinationFloor;
-    int passanger;
-}
-
-class ElevatorModel
-{
-    public int id;
-    public int currentFloor;
-    public ElevatorModel( int id, int currentFloor )
-    {
-        this.id = id;
-        this.currentFloor = currentFloor;
-    }
-}
-public static class Elevator
-{
-    static void buildingOptions( )
-    {
-        Console.WriteLine(CommandConstants.headerCommand);
-        Console.WriteLine(CommandConstants.toBuldingNumberCommand);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-    static void ElevatorOptions( )
-    {
-        Console.WriteLine(CommandConstants.headerCommand);
-        Console.WriteLine(CommandConstants.toRequestElevatorCommand);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-    static void BuildingFloorNumberCommand( )
-    {
-        Console.WriteLine(CommandConstants.buldingNumberPrompt);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-
-    static void ElevatorNumberCommand( )
-    {
-        Console.WriteLine(CommandConstants.elevatorNumberPrompt);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-
-    static void CurrentFloorPrompt( )
-    {
-        Console.WriteLine(CommandConstants.elevatorNumberPrompt);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-
-    static void PassangerNumberPrompt( )
-    {
-        Console.WriteLine(CommandConstants.elevatorNumberPrompt);
-        Console.WriteLine(CommandConstants.exitCommand);
-    }
-
-    static InputResultModel InputValidation( string? line )
+    static InputResultModel InputValidation(string? line)
     {
         int number;
         if (int.TryParse(line, out number))
@@ -104,57 +31,16 @@ public static class Elevator
         }
         return new InputResultModel(InputValidatorMessages.invalidIntMessage, 0, false, false);
     }
-    static bool isCurrentFloorOccupied( int currentFloor, int[] occupidFloors )
-    {
-        if (occupidFloors[currentFloor] > 0)
-        {
-            return true;
-        }
-        return false;
-    }
-    static bool inputFloorValidation( int currentFloorNumber, int buildingFloorNumber )
-    {
-        if (currentFloorNumber > buildingFloorNumber)
-        {
-            return false;
-        }
-        else if (currentFloorNumber < 0)
-        {
-            return false;
-        }
-        return true;
-    }
-    static int getUpperFlow( int[] occupiedFloors )
-    {
-        int upperFlow = Array.FindLastIndex(occupiedFloors, x => x > 0);
-        return upperFlow;
-    }
-    static int getLowerFlow( int[] occupiedFloors )
-    {
-        int upperFlow = Array.FindIndex(occupiedFloors, x => x > 0);
-        return upperFlow;
-    }
 
-    static int closestFloor( int currentFloor, int lowFloor, int upperFloor )
-    {
-        int favorLowFloor  = currentFloor - lowFloor ;
-        int favorUpperFloor  = upperFloor - currentFloor  ;
-        if (favorLowFloor < favorUpperFloor)
-        {
-            return lowFloor;
-        }
-        else if (favorLowFloor > favorUpperFloor)
-        {
-            return upperFloor;
-        }
-        return lowFloor;
-    }
-    static InputResultModel getFloorsNumber( )
+    
+
+
+    static InputResultModel PromptReslut(string prompt)
     {
         InputResultModel res;
         do
         {
-            Elevator.BuildingFloorNumberCommand();
+            Console.WriteLine(prompt);
             res = Elevator.InputValidation(Console.ReadLine());
             if (res.valid)
             {
@@ -167,137 +53,124 @@ public static class Elevator
         } while (true);
         return res;
     }
-    static InputResultModel getElevatorNumber( )
-    {
-        InputResultModel res;
-        do
-        {
-            Elevator.ElevatorNumberCommand();
-            res = Elevator.InputValidation(Console.ReadLine());
-            if (res.valid)
-            {
-                break;
-            }
-            if (res.exit)
-            {
-                break;
-            }
-        } while (true);
-        return res;
-    }
-    static InputResultModel requestElevator( )
-    {
-        InputResultModel res;
-        do
-        {
-            Elevator.ElevatorOptions();
-            res = Elevator.InputValidation(Console.ReadLine());
-            if (res.valid && res.value ==1)
-            {
-                break;
-            }
-            if (res.exit)
-            {
-                break;
-            }
-        } while (true);
-        return res;
-    }
 
-    static InputResultModel currentElevatorFloor( )
+    public static void Main(String[] args)
     {
-        InputResultModel res;
-        do
-        {
-            Elevator.currentElevator();
-            res = Elevator.InputValidation(Console.ReadLine());
-            if (res.valid && res.value == 1)
-            {
-                break;
-            }
-            if (res.exit)
-            {
-                break;
-            }
-        } while (true);
-        return res;
-    }
 
-    static InputResultModel numberOfPassangers( )
-    {
-        InputResultModel res;
-        do
-        {
-            Elevator.numberOfPassangers();
-            res = Elevator.InputValidation(Console.ReadLine());
-            if (res.valid && res.value == 1)
-            {
-                break;
-            }
-            if (res.exit)
-            {
-                break;
-            }
-        } while (true);
-        return res;
-    }
+        var serviceProvider = new ServiceCollection()
+               .AddSingleton<IElevatorMovement, ElevatorMovement>()
+               .AddSingleton<IOptions, Options>()
+               .BuildServiceProvider();
 
-    static InputResultModel getCurrentFloor(string command )
-    {
-        InputResultModel res;
-        do
-        {
-            Elevator.getCurrentFloor();
-            res = Elevator.InputValidation(Console.ReadLine());
-            if (res.valid && res.value == 1)
-            {
-                break;
-            }
-            if (res.exit)
-            {
-                break;
-            }
-        } while (true);
-        return res;
-    }
-
-    public static void Main( String[] args )
-    {
-        List<ElevatorModel>elevators = new List<ElevatorModel>();
-        int[] occupidFloors;
+        var elevatorService = serviceProvider.GetService<IElevatorMovement>();
+        var optionsService = serviceProvider.GetService<IOptions>();
+        List<ElevatorModel> elevators = new List<ElevatorModel>();
+        List<int> occupidFloors = new List<int>();
         int buildingFloorNumber;
         InputResultModel res;
+        string prompt;
         do
         {
-            Elevator.buildingOptions();
-            res = Elevator.InputValidation(Console.ReadLine());
+            prompt = optionsService.BuildingOptions();
+            res = PromptReslut(prompt);
             if (res.valid && !res.exit)
             {
                 if (res.value == 1)
                 {
-                    res = getFloorsNumber();
+                    prompt = optionsService.BuildingFloorNumberCommand();
+                    res = PromptReslut(prompt);
                     buildingFloorNumber = res.value;
+                    for (int i = 0; i < res.value; i++)
+                    {
+                        occupidFloors.Add(0);
+                    }
+
                 }
                 if (!res.exit)
                 {
-                    res = getElevatorNumber();
-                    int[] arr = new int[res.value];
-                    occupidFloors = arr;
+                    prompt = optionsService.ElevatorNumberCommand();
+                    res = PromptReslut(prompt);
+                  
                     for (int i = 0; i < res.value; i++)
                     {
                         elevators.Add(new ElevatorModel(i, 0));
+                       
                     }
+                    occupidFloors[0] = res.value;
                 }
                 if (!res.exit)
                 {
                     do
                     {
-                        res = requestElevator();
+                        prompt = optionsService.ElevatorOptions();
+                        res = PromptReslut(prompt);
 
-                        if (res.valid && !res.exit)
+                        if (!res.exit)
                         {
+                            prompt = optionsService.CurrentFloorPrompt();
+                            res = PromptReslut(prompt);
+                            
+
+                            if (!res.exit)
+                            {
+                                int currentFloor = res.value;
+
+                                prompt = optionsService.DestinationFloorPrompt();
+                                res = PromptReslut(prompt);
+                                
+
+                                if (res.valid)
+                                {
+
+                                    int destination = res.value;
+
+                                    prompt = optionsService.PassangerNumberPrompt();
+                                    res = PromptReslut(prompt);
+                                    
+
+                                    if (res.valid)
+                                    {
+                                        int passangers = res.value;
+                                        var arr = occupidFloors.ToArray();
+                                        bool isOccupid = elevatorService.isCurrentFloorOccupied(currentFloor, arr);
+
+                                        if (isOccupid)
+                                        {
+                                            Console.WriteLine("the current floor is occupide " + currentFloor.ToString());
+                                            int elevatorIndex = elevators.FindIndex(s => s.currentFloor == currentFloor);
+                                            occupidFloors[destination] = occupidFloors[destination] + 1;
+                                            occupidFloors[currentFloor] = occupidFloors[currentFloor] - 1;
+
+                                        }
+                                        else
+                                        {
+
+                                            int upper = elevatorService.getUpperFlow(arr.Skip(currentFloor).ToArray());
+                                            if (upper != -1)
+                                            {
+                                                upper += currentFloor;
+                                            }
+                                            int lower = elevatorService.getLowerFlow(arr.Take(currentFloor).ToArray());
+
+                                            int closest = elevatorService.closestFloor(currentFloor, lower, upper);
+
+                                            int elevatorIndex = elevators.FindIndex(s => s.currentFloor == closest);
+                                            //.Where(s => s.currentFloor == closest).FirstOrDefault();
+                                            //Find(a => a.currentFloor == closestFloor).fist;  
+
+                                            elevators[elevatorIndex].currentFloor = destination;
+                                            occupidFloors[destination] = occupidFloors[destination] + 1;
+                                            occupidFloors[closest] = occupidFloors[closest] - 1;
+                                            Console.WriteLine("closest elvator " + closest.ToString());
+
+                                        }
+
+                                    }
+
+                                }
 
 
+                            }
                         }
 
                         if (res.exit)
@@ -314,79 +187,6 @@ public static class Elevator
         } while (true);
 
 
-        //int[] arr = new int[17];
-
-        //var j = arr.Take(7).ToArray();
-        //var i = arr.Skip(7).ToArray();
-
-        //foreach (var x in j)
-        //{
-        //    Console.Write(" " + x + " ");
-        //}
-        //Console.WriteLine("\nthen");
-        elevators[2].currentFloor = 5;
-        foreach (var x in elevators)
-        {
-            Console.WriteLine(" " + x.id.ToString() + " " + x.currentFloor.ToString());
-        }
-
-        //Console.WriteLine("\n********");
-
-        //var n = Array.FindLastIndex(j, x => x > 0);
-        //var m = Array.FindIndex(i, x => x > 0);
-
-        ////var m = i.Select(( val, index ) => new { Val = val, Index = index })
-        ////       .Where(l => l.Val > 0)
-        ////       .First()
-        ////       .Index;
-        //Console.WriteLine(n);
-        //Console.WriteLine(m);
-
-
-        //Console.WriteLine("then");
-        //Console.WriteLine(i.ToString());
-        //ElevatorManager elevatorManager = new ElevatorManager();
-        //do
-        //{
-
-
-        //    elevatorManager.PromptElevator();
-        //    Console.WriteLine("Enter (Q) to exit");
-
-        //    if (Console.ReadLine().ToUpper() == "Q")
-        //    {
-
-        //        break;
-
-
-        //    }
-
-        //} while (true);
 
     }
-}
-public class ElevatorManager
-{
-    public void PromptElevator( )
-    {
-
-        do
-        {
-            Console.WriteLine("Enter current floor number");
-
-            string input = Console.ReadLine();
-
-            if (input == "1")
-            {
-                break;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input, try again!");
-
-            }
-
-        } while (true);
-    }
-
 }
