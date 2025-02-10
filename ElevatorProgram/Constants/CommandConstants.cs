@@ -9,7 +9,7 @@ namespace ElevatorProgram.Constants
     public class CommandConstants
     {
         public const string headerCommand = "Please choose from one of the following options...";
-        public const string toBuldingNumberCommand = "1.To START simulation";
+        public const string toBuldingNumberCommand = "Enter (0..9) To START simulation";
         public const string exitCommand = " (Q) to Exit";
         public const string buldingNumberPrompt = "Enter Building number of floors";
         public const string elevatorNumberPrompt = "Enter number of Elevators";

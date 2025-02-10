@@ -4,12 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ElevatorProgram.Interfaces;
+using ElevatorProgram.Models;
 
 namespace ElevatorProgram.Services
 {
     public class ElevatorMovement : IElevatorMovement
     {
-        public bool isCurrentFloorOccupied(int currentFloor, int[] floors)
+
+        public string MoveToCurrentFloor (){
+
+
+            return "";
+        }
+
+
+        
+        public bool IsCurrentFloorOccupied(int currentFloor, int[] floors)
         {
             if (floors[currentFloor] > 0)
             {
@@ -17,7 +27,7 @@ namespace ElevatorProgram.Services
             }
             return false;
         }
-        public bool inputFloorValidation(int currentFloorNumber, int buildingFloorNumber)
+        public bool InputFloorValidation(int currentFloorNumber, int buildingFloorNumber)
         {
             if (currentFloorNumber > buildingFloorNumber)
             {
@@ -29,18 +39,18 @@ namespace ElevatorProgram.Services
             }
             return true;
         }
-        public int getUpperFlow(int[] occupiedFloors)
+        public int GetUpperFlow(int[] occupiedFloors)
         {
             int upperFlow = Array.FindLastIndex(occupiedFloors, x => x > 0);
             return upperFlow;
         }
-        public int getLowerFlow(int[] occupiedFloors)
+        public int GetLowerFlow(int[] occupiedFloors)
         {
             int upperFlow = Array.FindIndex(occupiedFloors, x => x > 0);
             return upperFlow;
         }
 
-        public int closestFloor(int currentFloor, int lowFloor, int upperFloor)
+        public int ClosestFloor(int currentFloor, int lowFloor, int upperFloor)
         {
             if (lowFloor == -1)
             {

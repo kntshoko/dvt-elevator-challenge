@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElevatorSimulation", "ElevatorSimulation\ElevatorSimulation.csproj", "{D8682A8C-E9BD-459D-BC3E-D99FC4B7B682}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElevatorSimulation.Tests", "ElevatorSimulation.Tests\ElevatorSimulation.Tests.csproj", "{761BFD44-70E4-461F-9447-F4B5A1262CD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElevatorProgram", "ElevatorProgram\ElevatorProgram.csproj", "{85A5EA97-2F74-44A0-B640-28EEDA5FC88B}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D8682A8C-E9BD-459D-BC3E-D99FC4B7B682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8682A8C-E9BD-459D-BC3E-D99FC4B7B682}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8682A8C-E9BD-459D-BC3E-D99FC4B7B682}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8682A8C-E9BD-459D-BC3E-D99FC4B7B682}.Release|Any CPU.Build.0 = Release|Any CPU
 		{761BFD44-70E4-461F-9447-F4B5A1262CD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{761BFD44-70E4-461F-9447-F4B5A1262CD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{761BFD44-70E4-461F-9447-F4B5A1262CD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
