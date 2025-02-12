@@ -10,11 +10,11 @@ namespace ElevatorProgram.Services
 {
     public class Options : IOptions
     {
-        public string BuildingOptions()
+        public string SimulationsStartOptions()
         {
 
             string prompt = CommandConstants.headerCommand + "\n"
-                + CommandConstants.toBuldingNumberCommand +
+                + CommandConstants.startCommand +
                 " \n" + CommandConstants.exitCommand;
 
             return prompt;

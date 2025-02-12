@@ -3,7 +3,7 @@
     public interface IOptions
     {
         string BuildingFloorNumberCommand();
-        string BuildingOptions();
+        string SimulationsStartOptions();
         string CurrentFloorPrompt();
         string DestinationFloorPrompt();
         string ElevatorNumberCommand();

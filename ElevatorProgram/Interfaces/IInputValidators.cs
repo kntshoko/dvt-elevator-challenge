@@ -1,10 +1,11 @@
-﻿using ElevatorProgram.Models;
+﻿using ElevatorProgram.Constants;
+using ElevatorProgram.Models;
 
 namespace ElevatorProgram.Interfaces
 {
     public interface IInputValidators
     {
-        InputResultModel InputValidation(string? line ,int value, bool islower);
-        InputResultModel PromptReslut(string prompt, int value, bool islower);
+        InputResultModel InputValidation(string? line ,int value, InputType inputType);
+        InputResultModel PromptReslut(string prompt, int value, InputType inputType);
     }
 }

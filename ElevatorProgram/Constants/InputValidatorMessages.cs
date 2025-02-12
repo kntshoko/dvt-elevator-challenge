@@ -13,4 +13,5 @@ namespace ElevatorProgram.Constants
         public const string invalidMaxValue = "Input is not valid, Input must be lower than";
         public const string invalidMinValue = "Input is not valid, Input must be Higher than";
     }
+
 }

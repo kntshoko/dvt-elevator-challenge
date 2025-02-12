@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ElevatorProgram.Constants;
 using ElevatorProgram.Interfaces;
 using ElevatorProgram.Models;
 
@@ -31,7 +32,7 @@ namespace ElevatorProgram.Services
         private void SetBuilding()
         {
             prompt = _optionsService.BuildingFloorNumberCommand();
-            res = _inputValidatorService.PromptReslut(prompt, 0, false);
+            res = _inputValidatorService.PromptReslut(prompt, 50, InputType.building);
             buildingFloorNumber = res.value;
             for (int i = 0; i < res.value; i++)
                 occupidFloors.Add(0);
@@ -40,7 +41,7 @@ namespace ElevatorProgram.Services
         private void SetElevator()
         {
             prompt = _optionsService.ElevatorNumberCommand();
-            res = _inputValidatorService.PromptReslut(prompt, 0, false);
+            res = _inputValidatorService.PromptReslut(prompt, 10, InputType.elevator);
 
             for (int i = 0; i < res.value; i++)
             {
@@ -57,12 +58,12 @@ namespace ElevatorProgram.Services
             do
             {
                 prompt = _optionsService.ElevatorOptions();
-                res = _inputValidatorService.PromptReslut(prompt, 0, false);
+                res = _inputValidatorService.PromptReslut(prompt, 1, InputType.elevatorPrompt);
 
                 if (!res.exit)
                 {
                     prompt = _optionsService.CurrentFloorPrompt();
-                    res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, true);
+                    res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, InputType.currentFloor);
 
 
                     if (!res.exit)
@@ -70,7 +71,7 @@ namespace ElevatorProgram.Services
                         int currentFloor = res.value;
 
                         prompt = _optionsService.DestinationFloorPrompt();
-                        res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, true);
+                        res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, InputType.destination);
 
 
                         if (res.valid)
@@ -79,7 +80,7 @@ namespace ElevatorProgram.Services
                             int destination = res.value;
 
                             prompt = _optionsService.PassangerNumberPrompt();
-                            res = _inputValidatorService.PromptReslut(prompt, 10, true);
+                            res = _inputValidatorService.PromptReslut(prompt, 10, InputType.passangers);
 
 
                             if (res.valid)
@@ -148,11 +149,11 @@ namespace ElevatorProgram.Services
 
             do
             {
-                prompt = _optionsService.BuildingOptions();
-                res = _inputValidatorService.PromptReslut(prompt, 10, true);
+                prompt = _optionsService.SimulationsStartOptions();
+                res = _inputValidatorService.PromptReslut(prompt, 10, InputType.simulationOptions);
                 if (res.valid && !res.exit)
                 {
-                    if (10 > res.value && res.value > 1 )
+                    if (res.value == 1)
                     {
                         SetBuilding();
                         if (!res.exit)
@@ -160,12 +161,12 @@ namespace ElevatorProgram.Services
                             SetElevator();
                         }
                         if (!res.exit)
-                    {
-                        ElevatorRun();
-                    }
+                        {
+                            ElevatorRun();
+                        }
                     }
 
-                    
+
                 }
                 if (res.exit)
                 {

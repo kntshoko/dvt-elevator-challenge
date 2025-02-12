@@ -8,14 +8,14 @@ namespace ElevatorProgram.Constants
 {
     public class CommandConstants
     {
-        public const string headerCommand = "Please choose from one of the following options...";
-        public const string toBuldingNumberCommand = "Enter (0..9) To START simulation";
-        public const string exitCommand = " (Q) to Exit";
-        public const string buldingNumberPrompt = "Enter Building number of floors";
-        public const string elevatorNumberPrompt = "Enter number of Elevators";
-        public const string toRequestElevatorCommand = "1. request Elevator";
-        public const string currentFloorPrompt = "Enter current floor number";
-        public const string destinationFloorPrompt = "Enter destinatin floor number";
-        public const string passangerNumberPrompt = "Enter Building number of passangers";
+        public const string headerCommand = "**************************************\n   Welcome to DVT Elevator Challenge \n**************************************";
+        public const string startCommand = " Input ( 1 ) To START simulation";
+        public const string exitCommand = " Input (Q) to Exit ";
+        public const string buldingNumberPrompt = "\n----------------- SetUp Building info -----------------\n Input number to represent Building floors (2 - 50)";
+        public const string elevatorNumberPrompt = "\n----------------- SetUp Elevators info -----------------\n Input number to represent Elevators  (2 - 10)";
+        public const string toRequestElevatorCommand = "\n>>>>>>>>>>>>>>>>>  Elevator Oparation  <<<<<<<<<<<<<<<<\n Input ( 1 ) To request Elevator";
+        public const string currentFloorPrompt = " Input number to represent Current floor";
+        public const string destinationFloorPrompt = " Input number to represent destinatin floor";
+        public const string passangerNumberPrompt = " Input number to represent passangers (1 - 10)";
     }
 }
