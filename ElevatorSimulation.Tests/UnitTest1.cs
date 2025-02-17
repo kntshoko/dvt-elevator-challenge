@@ -1,3 +1,4 @@
+using ElevatorProgram.Constants;
 using ElevatorProgram.Interfaces;
 using ElevatorProgram.Models;
 using ElevatorProgram.Services;
@@ -42,7 +43,7 @@ public class UnitTest1
     public void ChecksIfNumberIsNotString()
     {
       
-        InputResultModel result = inputValidatorService.InputValidation("3",10,true);
+        InputResultModel result = inputValidatorService.InputValidation("3",10,InputType.elevator);
 
         result.valid.Should().BeTrue();
     }
@@ -51,7 +52,7 @@ public class UnitTest1
     public void ChecksIfNumberIsValid()
     {
 
-        InputResultModel result = inputValidatorService.InputValidation("3", 10, true);
+        InputResultModel result = inputValidatorService.InputValidation("3", 10, InputType.elevator);
 
         result.valid.Should().BeTrue();
     }

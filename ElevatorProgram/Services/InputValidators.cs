@@ -25,16 +25,20 @@ namespace ElevatorProgram.Services
                 {
                     return new InputResultModel(InputValidatorMessages.invalidMaxValue + value.ToString(), 0, false, false);
                 }
-                else if (InputType.currentFloor == inputType && (number < value || number < 0))
+                else if (InputType.currentFloor == inputType &&( number > value || number < 0))
+                {
+                    return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
+                }
+                else if (InputType.destination == inputType && (number > value || number < 0))
                 {
                     return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
                 }
                 else
-                if (InputType.passangers == inputType && number > value)
+                if (InputType.passangers == inputType && (number > 11 || number < 1))
                 {
                     return new InputResultModel(InputValidatorMessages.invalidMaxValue + value.ToString(), 0, false, false);
                 }
-                else if (InputType.elevator == inputType && number > value)
+                else if (InputType.elevator == inputType && (number > value || value < 2))
                 {
                     return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
                 }
@@ -50,7 +54,7 @@ namespace ElevatorProgram.Services
             }
             else 
             
-                return new InputResultModel(InputValidatorMessages.invalidIntMessage, 0, false, false);
+                return new InputResultModel(InputValidatorMessages.invalidIntMessage, 0, true, false);
         }
 
         public InputResultModel PromptReslut(string prompt, int value, InputType inputType)

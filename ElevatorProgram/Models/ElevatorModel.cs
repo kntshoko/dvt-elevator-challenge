@@ -10,10 +10,13 @@ namespace ElevatorProgram.Models
     {
         public int id;
         public int currentFloor;
+
+        public string direction;
         public ElevatorModel(int id, int currentFloor)
         {
             this.id = id;
             this.currentFloor = currentFloor;
+            this.direction = "up";
         }
     }
 }

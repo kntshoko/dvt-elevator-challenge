@@ -21,8 +21,7 @@ namespace ElevatorProgram.Services
         }
         public string ElevatorOptions()
         {
-            string prompt = CommandConstants.headerCommand + " \n"
-                + CommandConstants.toRequestElevatorCommand +
+            string prompt =  CommandConstants.toRequestElevatorCommand +
                 " \n" + CommandConstants.exitCommand;
 
             return prompt;

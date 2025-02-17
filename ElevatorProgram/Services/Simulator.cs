@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ElevatorProgram.Constants;
+﻿using ElevatorProgram.Constants;
 using ElevatorProgram.Interfaces;
 using ElevatorProgram.Models;
 
@@ -51,8 +46,6 @@ namespace ElevatorProgram.Services
             occupidFloors[0] = res.value;
         }
 
-
-
         private void ElevatorRun()
         {
             do
@@ -62,6 +55,8 @@ namespace ElevatorProgram.Services
 
                 if (!res.exit)
                 {
+
+
                     prompt = _optionsService.CurrentFloorPrompt();
                     res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, InputType.currentFloor);
 
@@ -70,70 +65,80 @@ namespace ElevatorProgram.Services
                     {
                         int currentFloor = res.value;
 
-                        prompt = _optionsService.DestinationFloorPrompt();
-                        res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, InputType.destination);
+
+                        var arr = occupidFloors.ToArray();
+
+                        int upper = _elevatorService.GetUpperFlow(arr.Skip(currentFloor).ToArray());
+                        if (upper != -1)
+                        {
+                            upper += currentFloor;
+                        }
+                        int lower = _elevatorService.GetLowerFlow(arr.Take(currentFloor).ToArray());
+
+                        int closest = _elevatorService.ClosestFloor(currentFloor, lower, upper);
+
+                        int elevatorIndex;
+
+
+                        bool isOccupid = _elevatorService.IsCurrentFloorOccupied(currentFloor, arr);
+
+                        if (isOccupid)
+                        {
+
+                            elevatorIndex = elevators.FindIndex(s => s.currentFloor == currentFloor);
+                            Console.WriteLine($"\tElevator {elevators[elevatorIndex].id}  doors opend...");
+
+
+                        }
+                        else
+                        {
+                            elevatorIndex = elevators.FindIndex(s => s.currentFloor == closest);
+                            Console.WriteLine($"\tElevator {elevators[elevatorIndex].id} from floor number {elevators[elevatorIndex].currentFloor} to Floor {currentFloor} ");
+                            Console.WriteLine($"\tElevator {elevators[elevatorIndex].id}  doors opend...");
+                        }
+
+
+
+
+                        prompt = _optionsService.PassangerNumberPrompt();
+                        res = _inputValidatorService.PromptReslut(prompt, 10, InputType.passangers);
 
 
                         if (res.valid)
                         {
+                            int passangers = res.value;
 
-                            int destination = res.value;
+                            Console.WriteLine($"\tElevator {elevators[elevatorIndex].id}  {passangers} pasangers bording...\n\tDoors closed");
 
-                            prompt = _optionsService.PassangerNumberPrompt();
-                            res = _inputValidatorService.PromptReslut(prompt, 10, InputType.passangers);
+
+                            prompt = _optionsService.DestinationFloorPrompt();
+                            res = _inputValidatorService.PromptReslut(prompt, buildingFloorNumber, InputType.destination);
 
 
                             if (res.valid)
                             {
-                                int passangers = res.value;
-                                var arr = occupidFloors.ToArray();
-                                bool isOccupid = _elevatorService.IsCurrentFloorOccupied(currentFloor, arr);
 
-                                if (isOccupid)
-                                {
+                                int destination = res.value;
 
-                                    int elevatorIndex = elevators.FindIndex(s => s.currentFloor == currentFloor);
+                                Console.WriteLine($"\tElevator {elevators[elevatorIndex].id} moving from floor number {elevators[elevatorIndex].currentFloor} to Floor {destination} ");
+                                Console.WriteLine($"\tElevator {elevators[elevatorIndex].id}  doors opend...");
+                                Console.WriteLine($"\tElevator {elevators[elevatorIndex].id}  {passangers} pasangers disembarking...\n\tDoors closed");
 
-                                    elevators[elevatorIndex].currentFloor = destination;
-                                    occupidFloors[destination] = occupidFloors[destination] + 1;
-                                    occupidFloors[currentFloor] = occupidFloors[currentFloor] - 1;
+                                arr = occupidFloors.ToArray();
 
-                                }
-                                else
-                                {
+                                elevators[elevatorIndex].currentFloor = destination;
+                                occupidFloors[destination] = occupidFloors[destination] + 1;
+                                occupidFloors[currentFloor] = occupidFloors[currentFloor] - 1;
 
-                                    int upper = _elevatorService.GetUpperFlow(arr.Skip(currentFloor).ToArray());
-                                    if (upper != -1)
-                                    {
-                                        upper += currentFloor;
-                                    }
-                                    int lower = _elevatorService.GetLowerFlow(arr.Take(currentFloor).ToArray());
-
-                                    int closest = _elevatorService.ClosestFloor(currentFloor, lower, upper);
-
-                                    int elevatorIndex = elevators.FindIndex(s => s.currentFloor == closest);
-
-                                    elevators[elevatorIndex].currentFloor = destination;
-                                    occupidFloors[destination] = occupidFloors[destination] + 1;
-                                    occupidFloors[closest] = occupidFloors[closest] - 1;
-
-
-
-
-                                }
-
-                                Console.WriteLine("Elevators Status ");
-
+                                Console.WriteLine("\tElevators Status ");
+                                Console.WriteLine("\n{0,20} {1,20} {2,20}","Elevator ID","Current Floor", "Direction");
                                 foreach (var elevator in elevators)
                                 {
-                                    Console.WriteLine($"ID :  {elevator.id,10}  Current Floor : {elevator.currentFloor,10}");
+                                    Console.WriteLine("{0,20} {1,20} {2,20}", elevator.id,  elevator.currentFloor, elevator.direction);
+                                    Console.WriteLine(new string('-',80));
                                 }
-
                             }
-
                         }
-
-
                     }
                 }
 
@@ -150,7 +155,7 @@ namespace ElevatorProgram.Services
             do
             {
                 prompt = _optionsService.SimulationsStartOptions();
-                res = _inputValidatorService.PromptReslut(prompt, 10, InputType.simulationOptions);
+                res = _inputValidatorService.PromptReslut(prompt, 1, InputType.simulationOptions);
                 if (res.valid && !res.exit)
                 {
                     if (res.value == 1)
