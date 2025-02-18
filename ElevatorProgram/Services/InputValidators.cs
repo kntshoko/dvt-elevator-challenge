@@ -23,34 +23,34 @@ namespace ElevatorProgram.Services
                 }else
                 if (InputType.building == inputType && number > value)
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMaxValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidBuildingMessage + value.ToString(), 0, false, false);
                 }
                 else if (InputType.currentFloor == inputType &&( number > value || number < 0))
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidFloorMessage + value.ToString(), 0, false, false);
                 }
                 else if (InputType.destination == inputType && (number > value || number < 0))
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidDestinationMessage + value.ToString(), 0, false, false);
                 }
                 else
                 if (InputType.passangers == inputType && (number > 11 || number < 1))
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMaxValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidPassangerMessage, 0, false, false);
                 }
                 else if (InputType.elevator == inputType && (number > value || value < 2))
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidElevatorsMessage, 0, false, false);
                 }
                 else if (InputType.elevatorPrompt == inputType && number != value)
                 {
-                    return new InputResultModel(InputValidatorMessages.invalidMinValue + value.ToString(), 0, false, false);
+                    return new InputResultModel(InputValidatorMessages.invalidPromptMessage + value.ToString(), 0, false, false);
                 }
                 return new InputResultModel("", number, true, false);
             }
             else if (line != null && line.Equals("Q", StringComparison.CurrentCultureIgnoreCase))
             {
-                return new InputResultModel("", 0, false, true);
+                return new InputResultModel("Exit", 0, false, true);
             }
             else 
             
@@ -67,10 +67,16 @@ namespace ElevatorProgram.Services
                 if (res.valid)
                 {
                     break;
-                }
+                }else
                 if (res.exit)
                 {
                     break;
+                }
+                else if(res.valid == false)
+                {
+                    Console.WriteLine("\t" + new string('*',50));
+                    Console.WriteLine("{0,9} {1} {2,-40}","*" , res.message,"*");
+                    Console.WriteLine("\t" + new string('*', 50));
                 }
             } while (true);
             return res;

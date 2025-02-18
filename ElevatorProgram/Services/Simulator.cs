@@ -117,7 +117,6 @@ namespace ElevatorProgram.Services
 
                             if (res.valid)
                             {
-
                                 int destination = res.value;
 
                                 Console.WriteLine($"\tElevator {elevators[elevatorIndex].id} moving from floor number {elevators[elevatorIndex].currentFloor} to Floor {destination} ");
@@ -141,7 +140,6 @@ namespace ElevatorProgram.Services
                         }
                     }
                 }
-
                 if (res.exit)
                 {
                     break;
@@ -170,8 +168,6 @@ namespace ElevatorProgram.Services
                             ElevatorRun();
                         }
                     }
-
-
                 }
                 if (res.exit)
                 {
