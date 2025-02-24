@@ -21,7 +21,7 @@ namespace ElevatorProgram.Services
                 {
                     return new InputResultModel("Input Value can't be Nagative", 0, false, false);
                 }else
-                if (InputType.building == inputType && number > value)
+                if (InputType.building == inputType &&( number > value || number < 2))
                 {
                     return new InputResultModel(InputValidatorMessages.invalidBuildingMessage + value.ToString(), 0, false, false);
                 }
@@ -45,6 +45,10 @@ namespace ElevatorProgram.Services
                 else if (InputType.elevatorPrompt == inputType && number != value)
                 {
                     return new InputResultModel(InputValidatorMessages.invalidPromptMessage + value.ToString(), 0, false, false);
+                }
+                else if (InputType.simulationOptions == inputType && number != 1)
+                {
+                    return new InputResultModel(InputValidatorMessages.invalidSimulationOptions, 0, false, false);
                 }
                 return new InputResultModel("", number, true, false);
             }
@@ -74,9 +78,9 @@ namespace ElevatorProgram.Services
                 }
                 else if(res.valid == false)
                 {
-                    Console.WriteLine("\t" + new string('*',50));
-                    Console.WriteLine("{0,9} {1} {2,-40}","*" , res.message,"*");
-                    Console.WriteLine("\t" + new string('*', 50));
+                    Console.WriteLine("\t" + new string('\'',60));
+                    Console.WriteLine("{0,20}", res.message);
+                    Console.WriteLine("\t" + new string('\'', 60));
                 }
             } while (true);
             return res;

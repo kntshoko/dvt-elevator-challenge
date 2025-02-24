@@ -130,11 +130,11 @@ namespace ElevatorProgram.Services
                                 occupidFloors[currentFloor] = occupidFloors[currentFloor] - 1;
 
                                 Console.WriteLine("\tElevators Status ");
-                                Console.WriteLine("\n{0,20} {1,20} {2,20}","Elevator ID","Current Floor", "Direction");
+                                Console.WriteLine("\n{0,20} {1,20} {2,20}", "Elevator ID", "Current Floor", "Direction");
                                 foreach (var elevator in elevators)
                                 {
-                                    Console.WriteLine("{0,20} {1,20} {2,20}", elevator.id,  elevator.currentFloor, elevator.direction);
-                                    Console.WriteLine(new string('-',80));
+                                    Console.WriteLine("{0,20} {1,20} {2,20}", elevator.id, elevator.currentFloor, elevator.direction);
+                                    Console.WriteLine(new string('-', 80));
                                 }
                             }
                         }
@@ -154,19 +154,20 @@ namespace ElevatorProgram.Services
             {
                 prompt = _optionsService.SimulationsStartOptions();
                 res = _inputValidatorService.PromptReslut(prompt, 1, InputType.simulationOptions);
-                if (res.valid && !res.exit)
+                if (res.valid == true)
                 {
                     if (res.value == 1)
                     {
                         SetBuilding();
-                        if (!res.exit)
+                        if (res.valid )
                         {
                             SetElevator();
+                            if (res.valid)
+                            {
+                                ElevatorRun();
+                            }
                         }
-                        if (!res.exit)
-                        {
-                            ElevatorRun();
-                        }
+                       
                     }
                 }
                 if (res.exit)

@@ -14,7 +14,8 @@ namespace ElevatorProgram.Constants
         passangers,
         elevatorPrompt,
         destination,
-        simulationOptions
+        simulationOptions,
+        startSimulation
 
         
     }
